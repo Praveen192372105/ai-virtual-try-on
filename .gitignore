@@ -1,0 +1,107 @@
+# ============================================================
+# AI Virtual Try-On - .gitignore
+# ============================================================
+
+# ---- Flutter / Dart ----------------------------------------
+frontend_flutter/.dart_tool/
+frontend_flutter/.flutter-plugins
+frontend_flutter/.flutter-plugins-dependencies
+frontend_flutter/.packages
+frontend_flutter/build/
+frontend_flutter/.pub-cache/
+frontend_flutter/.pub/
+frontend_flutter/ios/Flutter/.last_build_id
+frontend_flutter/android/local.properties
+frontend_flutter/android/.gradle/
+frontend_flutter/android/app/debug/
+frontend_flutter/android/app/profile/
+frontend_flutter/android/app/release/
+frontend_flutter/android/key.properties
+frontend_flutter/**/*.g.dart
+frontend_flutter/**/*.freezed.dart
+frontend_flutter/coverage/
+frontend_flutter/analyze_errors.txt
+frontend_flutter/analyze_out.txt
+frontend_flutter/build_web_out.txt
+
+# ---- Node.js Backend ----------------------------------------
+backend_nodejs/node_modules/
+backend_nodejs/.env
+backend_nodejs/uploads/*
+!backend_nodejs/uploads/.gitkeep
+backend_nodejs/logs/
+backend_nodejs/dist/
+backend_nodejs/npm-debug.log*
+backend_nodejs/yarn-debug.log*
+backend_nodejs/yarn-error.log*
+
+# ---- Backend (generic) -------------------------------------
+backend/node_modules/
+backend/.env
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# ---- Python / AI Model -------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+ENV/
+ai_model/models/*.pth
+ai_model/models/*.pt
+ai_model/models/*.h5
+ai_model/models/*.onnx
+ai_model/models/*.pkl
+ai_model/models/*.bin
+ai_model/datasets/*
+!ai_model/datasets/.gitkeep
+ai_model/outputs/*
+!ai_model/outputs/.gitkeep
+
+# ---- Database ----------------------------------------------
+database/*.sql
+database/*.db
+database/*.sqlite
+database/dumps/
+
+# ---- Datasets (large files) --------------------------------
+datasets/**/*.jpg
+datasets/**/*.jpeg
+datasets/**/*.png
+datasets/**/*.zip
+datasets/**/*.tar
+datasets/**/*.tar.gz
+datasets/**/*.npz
+datasets/**/*.npy
+
+# ---- Deployment --------------------------------------------
+deployment/**/*.pem
+deployment/**/*.key
+deployment/**/*.crt
+deployment/**/.env
+deployment/**/secrets.yaml
+
+# ---- General -----------------------------------------------
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+.idea/
+.vscode/settings.json
+*.iml
+.env
+.env.local
+.env.production
+.env.development
+secrets/
