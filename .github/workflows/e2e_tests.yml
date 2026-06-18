@@ -1,3 +1,4 @@
+
 name: E2E Selenium Test Suite CI
 
 on:
@@ -11,45 +12,61 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-        cache: 'pip'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install selenium openpyxl pytest
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
 
-    - name: Install Chrome & ChromeDriver
-      uses: browser-actions/setup-chrome@v1
+          # Install backend dependencies if available
+          if [ -f backend/requirements.txt ]; then
+            pip install -r backend/requirements.txt
+          fi
 
-    - name: Seed Database
-      run: python backend/seed.py
+          # Install testing dependencies
+          pip install selenium pytest openpyxl webdriver-manager
 
-    - name: Start backend server
-      run: |
-        python backend/app.py &
-        sleep 5
+      - name: Install Google Chrome
+        uses: browser-actions/setup-chrome@v1
 
-    - name: Run PyTest E2E & Component Test Suite
-      run: pytest test_suite.py -v
+      - name: Verify Chrome Installation
+        run: |
+          google-chrome --version
 
-    - name: Run Selenium E2E Tests
-      run: python selenium_e2e_tests.py
+      - name: Seed Database
+        run: python backend/seed.py
 
-    - name: Generate E2E Excel Test Report
-      if: always()
-      run: python generate_test_report.py
+      - name: Start Backend Server
+        run: |
+          python backend/main.py &
+          sleep 10
 
-    - name: Upload Test Report Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: E2E-Test-Report-Excel
-        path: E2E_Test_Report_VirtualTryOn.xlsx
-        if-no-files-found: error
-        retention-days: 30
+      - name: Run PyTest Tests
+        run: |
+          pytest test_suite.py -v
+
+      - name: Run Selenium E2E Tests
+        run: |
+          python selenium_e2e_tests.py
+
+      - name: Generate Test Report
+        if: always()
+        run: |
+          if [ -f generate_test_report.py ]; then
+            python generate_test_report.py
+          fi
+
+      - name: Upload Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: E2E-Test-Report
+          path: E2E_Test_Report_VirtualTryOn.xlsx
+          if-no-files-found: warn
+
