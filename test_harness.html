@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Virtual Try-On - Staging Test Harness</title>
+    <style>
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            background-color: #0b0c10;
+            color: #c5c6c7;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #1f2833;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0,255,255,0.2);
+            border: 1px solid #66fcf1;
+        }
+        h1 {
+            color: #66fcf1;
+            text-align: center;
+            border-bottom: 2px solid #45a29e;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #45a29e;
+            border-radius: 5px;
+            background-color: #1a1a24;
+        }
+        h2 {
+            color: #66fcf1;
+            margin-top: 0;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="password"], input[type="email"], select {
+            width: 100%;
+            padding: 10px;
+            background-color: #0b0c10;
+            border: 1px solid #45a29e;
+            color: #ffffff;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+            border-color: #66fcf1;
+            outline: none;
+        }
+        button {
+            background-color: #45a29e;
+            color: #0b0c10;
+            border: none;
+            padding: 12px 20px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 15px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #66fcf1;
+            box-shadow: 0 0 10px #66fcf1;
+        }
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+            font-weight: bold;
+        }
+        .success {
+            background-color: rgba(40, 167, 69, 0.2);
+            border: 1px solid #28a745;
+            color: #28a745;
+        }
+        .error {
+            background-color: rgba(220, 53, 69, 0.2);
+            border: 1px solid #dc3545;
+            color: #dc3545;
+        }
+        .product-card {
+            border: 1px solid #45a29e;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .product-name {
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .product-price {
+            color: #66fcf1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>AI-Based Virtual Try-On System Staging Harness</h1>
+    <p style="text-align: center;">This harness represents the HTML interface structure for automated Selenium E2E functionality testing.</p>
+
+    <!-- AUTHENTICATION MODULE -->
+    <div class="section" id="auth-section">
+        <h2>1. User Authentication</h2>
+        <div id="register-form">
+            <h3>Register</h3>
+            <label for="reg-email">Email Address</label>
+            <input type="email" id="reg-email" placeholder="enter email">
+            <label for="reg-password">Password</label>
+            <input type="password" id="reg-password" placeholder="enter password">
+            <button id="btn-register" onclick="registerUser()">Sign Up</button>
+            <div id="register-feedback" class="feedback"></div>
+        </div>
+
+        <hr style="border-color: #45a29e; margin: 20px 0;">
+
+        <div id="login-form">
+            <h3>Login</h3>
+            <label for="login-email">Email Address</label>
+            <input type="email" id="login-email" placeholder="enter email">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" placeholder="enter password">
+            <button id="btn-login" onclick="loginUser()">Sign In</button>
+            <div id="login-feedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- PRODUCT CATALOG MODULE -->
+    <div class="section" id="catalog-section">
+        <h2>2. Product Catalog</h2>
+        <label for="search-input">Search Products</label>
+        <input type="text" id="search-input" placeholder="Search by name, brand, category..." onkeyup="filterProducts()">
+        
+        <label for="category-select">Filter by Category</label>
+        <select id="category-select" onchange="filterProducts()">
+            <option value="All">All Categories</option>
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
+            <option value="Kids">Kids</option>
+            <option value="Accessories">Accessories</option>
+        </select>
+
+        <div id="product-list" style="margin-top: 15px;">
+            <div class="product-card" data-category="Men" data-name="Futuristic Cyber Jacket">
+                <div>
+                    <span class="product-name">Futuristic Cyber Jacket</span><br>
+                    <small>Brand: CyberWear | Category: Men</small>
+                </div>
+                <div>
+                    <span class="product-price">$129.99</span>
+                    <button style="padding: 5px 10px; font-size: 12px; margin: 0 0 0 10px; width: auto;" onclick="addToCart('Futuristic Cyber Jacket', 129.99)">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card" data-category="Women" data-name="Holographic Silk Dress">
+                <div>
+                    <span class="product-name">Holographic Silk Dress</span><br>
+                    <small>Brand: NeoCouture | Category: Women</small>
+                </div>
+                <div>
+                    <span class="product-price">$159.50</span>
+                    <button style="padding: 5px 10px; font-size: 12px; margin: 0 0 0 10px; width: auto;" onclick="addToCart('Holographic Silk Dress', 159.50)">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card" data-category="Kids" data-name="Neon Street Hoodie">
+                <div>
+                    <span class="product-name">Neon Street Hoodie</span><br>
+                    <small>Brand: MiniGrid | Category: Kids</small>
+                </div>
+                <div>
+                    <span class="product-price">$79.99</span>
+                    <button style="padding: 5px 10px; font-size: 12px; margin: 0 0 0 10px; width: auto;" onclick="addToCart('Neon Street Hoodie', 79.99)">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card" data-category="Accessories" data-name="Chrono Smart Eyewear">
+                <div>
+                    <span class="product-name">Chrono Smart Eyewear</span><br>
+                    <small>Brand: OptixTech | Category: Accessories</small>
+                </div>
+                <div>
+                    <span class="product-price">$249.00</span>
+                    <button style="padding: 5px 10px; font-size: 12px; margin: 0 0 0 10px; width: auto;" onclick="addToCart('Chrono Smart Eyewear', 249.00)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI VIRTUAL TRY-ON PROCESSING -->
+    <div class="section" id="tryon-section">
+        <h2>3. AI Virtual Try-On Pipeline</h2>
+        <label for="tryon-avatar">Upload Avatar Photo (JPG/PNG)</label>
+        <input type="file" id="tryon-avatar" accept="image/*" onchange="previewAvatar()">
+        <div id="avatar-preview-status" style="margin-top: 10px; font-style: italic;">No photo uploaded.</div>
+
+        <label for="tryon-garment">Select Garment to Try On</label>
+        <select id="tryon-garment">
+            <option value="cyber_jacket">Futuristic Cyber Jacket (Men)</option>
+            <option value="holo_dress">Holographic Silk Dress (Women)</option>
+            <option value="neon_hoodie">Neon Street Hoodie (Kids)</option>
+            <option value="chrono_eyewear">Chrono Smart Eyewear (Accessories)</option>
+        </select>
+
+        <button id="btn-tryon" onclick="executeTryOn()">Execute AI Virtual Try-On</button>
+        <div id="tryon-feedback" class="feedback"></div>
+    </div>
+
+    <!-- CART & CHECKOUT MODULE -->
+    <div class="section" id="cart-section">
+        <h2>4. Shopping Cart & Checkout</h2>
+        <div id="cart-items">
+            <p>Your cart is empty.</p>
+        </div>
+        <div style="text-align: right; margin-top: 10px; font-weight: bold; font-size: 18px;">
+            Total: <span id="cart-total">$0.00</span>
+        </div>
+        
+        <div id="checkout-form" style="margin-top: 20px;">
+            <h3>Checkout Details</h3>
+            <label for="shipping-address">Shipping Address</label>
+            <input type="text" id="shipping-address" placeholder="enter address">
+            <label for="zip-code">Zip/Postal Code</label>
+            <input type="text" id="zip-code" placeholder="enter zip code">
+            <button id="btn-checkout" onclick="checkoutCart()">Confirm Order & Pay</button>
+            <div id="checkout-feedback" class="feedback"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Local state simulation
+    let cart = [];
+    let isRegistered = false;
+    let isLoggedIn = false;
+    
+    // Auth functions
+    function registerUser() {
+        const email = document.getElementById("reg-email").value.trim();
+        const pwd = document.getElementById("reg-password").value.trim();
+        const feedback = document.getElementById("register-feedback");
+        
+        feedback.style.display = "block";
+        if (!email || !pwd) {
+            feedback.className = "feedback error";
+            feedback.innerText = "Error: Email and password fields cannot be empty!";
+        } else if (email === "duplicate@example.com") {
+            feedback.className = "feedback error";
+            feedback.innerText = "Error: Email is already registered!";
+        } else {
+            feedback.className = "feedback success";
+            feedback.innerText = "Success: Account registered! Please login.";
+            isRegistered = true;
+        }
+    }
+
+    function loginUser() {
+        const email = document.getElementById("login-email").value.trim();
+        const pwd = document.getElementById("login-password").value.trim();
+        const feedback = document.getElementById("login-feedback");
+        
+        feedback.style.display = "block";
+        if (!email || !pwd) {
+            feedback.className = "feedback error";
+            feedback.innerText = "Error: Email and password fields cannot be empty!";
+        } else if (email === "user@example.com" && pwd === "password123") {
+            feedback.className = "feedback success";
+            feedback.innerText = "Success: Logged in! Session JWT Token generated.";
+            isLoggedIn = true;
+        } else {
+            feedback.className = "feedback error";
+            feedback.innerText = "Error: Invalid credentials!";
+        }
+    }
+
+    // Product search and filter
+    function filterProducts() {
+        const query = document.getElementById("search-input").value.toLowerCase();
+        const category = document.getElementById("category-select").value;
+        const cards = document.getElementsByClassName("product-card");
+        
+        for (let card of cards) {
+            const name = card.getAttribute("data-name").toLowerCase();
+            const cardCat = card.getAttribute("data-category");
+            
+            const matchesQuery = name.includes(query);
+            const matchesCat = (category === "All") || (cardCat === category);
+            
+            if (matchesQuery && matchesCat) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+        }
+    }
+
+    // Cart actions
+    function addToCart(name, price) {
+        cart.push({name, price});
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        const container = document.getElementById("cart-items");
+        const totalSpan = document.getElementById("cart-total");
+        
+        if (cart.length === 0) {
+            container.innerHTML = "<p>Your cart is empty.</p>";
+            totalSpan.innerText = "$0.00";
+            return;
+        }
+        
+        let html = "";
+        let total = 0;
+        cart.forEach((item, index) => {
+            html += `<div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span>${item.name}</span>
+                <span>$${item.price.toFixed(2)} <button style="width:auto; padding:2px 5px; font-size:10px; margin-left:10px; background-color:#dc3545; color:white;" onclick="removeFromCart(${index})">X</button></span>
+            </div>`;
+            total += item.price;
+        });
+        
+        container.innerHTML = html;
+        totalSpan.innerText = "$" + total.toFixed(2);
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartUI();
+    }
+
+    // AI Virtual Try On actions
+    function previewAvatar() {
+        const fileInput = document.getElementById("tryon-avatar");
+        const status = document.getElementById("avatar-preview-status");
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            if (file.name.endsWith('.pdf')) {
+                status.innerText = "Error: File format PDF not supported!";
+                status.style.color = "#dc3545";
+            } else {
+                status.innerText = "Preview loaded: " + file.name + " (" + (file.size/1024).toFixed(1) + " KB)";
+                status.style.color = "#28a745";
+            }
+        }
+    }
+
+    function executeTryOn() {
+        const fileInput = document.getElementById("tryon-avatar");
+        const feedback = document.getElementById("tryon-feedback");
+        
+        feedback.style.display = "block";
+        if (fileInput.files.length === 0) {
+            feedback.className = "feedback error";
+            feedback.innerText = "Error: Please upload an avatar photo first!";
+        } else if (fileInput.files[0].name.includes("empty_wall")) {
+            feedback.className = "feedback error";
+            feedback.innerText = "Error: No body landmarks detected! Please upload a photo containing a human body.";
+        } else {
+            feedback.className = "feedback success";
+            feedback.innerText = "Success: Virtual Try-On generated! Rendering garment overlay.";
+        }
+    }
+
+    // Checkout actions
+    function checkoutCart() {
+        const address = document.getElementById("shipping-address").value.trim();
+        const zip = document.getElementById("zip-code").value.trim();
+        const feedback = document.getElementById("checkout-feedback");
+        
+        feedback.style.display = "block";
+        if (cart.length === 0) {
+            feedback.className = "feedback error";
+            feedback.innerText = "Error: Cannot check out with an empty cart!";
+        } else if (!address || !zip) {
+            feedback.className = "feedback error";
+            feedback.innerText = "Error: Shipping address and zip code are required!";
+        } else if (isNaN(zip)) {
+            feedback.className = "feedback error";
+            feedback.innerText = "Error: Zip code must be numeric format!";
+        } else {
+            feedback.className = "feedback success";
+            feedback.innerText = "Success: Order paid via Stripe! Redirecting to confirmation page.";
+            cart = [];
+            updateCartUI();
+        }
+    }
+</script>
+
+</body>
+</html>
