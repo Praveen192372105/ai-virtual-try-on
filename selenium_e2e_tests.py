@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.service import Service
 
 def run_selenium_tests():
     print("=============================================================")
-    print("🚀 STARTING AUTOMATED SELENIUM E2E FUNCTIONALITY TEST SUITE")
+    print("STARTING AUTOMATED SELENIUM E2E FUNCTIONALITY TEST SUITE")
     print("=============================================================")
     
     # Configure Chrome options for Headless mode
@@ -20,21 +20,21 @@ def run_selenium_tests():
     
     harness_path = os.path.abspath("test_harness.html")
     if not os.path.exists(harness_path):
-        print(f"❌ Error: Test harness page not found at {harness_path}")
+        print(f"Error: Test harness page not found at {harness_path}")
         sys.exit(1)
         
     url = f"file:///{harness_path.replace(os.sep, '/')}"
-    print(f"🌐 Loading local test target DOM: {url}")
+    print(f"Loading local test target DOM: {url}")
     
     try:
         driver = webdriver.Chrome(options=chrome_options)
     except Exception as e:
-        print(f"⚠️ Standard Chrome WebDriver launch failed: {e}")
-        print("💡 Attempting to use default service configurations...")
+        print(f"Standard Chrome WebDriver launch failed: {e}")
+        print("Attempting to use default service configurations...")
         try:
             driver = webdriver.Chrome()
         except Exception as e2:
-            print(f"❌ Failed to launch Chrome. Selenium testing environment not fully configured: {e2}")
+            print(f"Failed to launch Chrome. Selenium testing environment not fully configured: {e2}")
             print("Running mock Selenium E2E execution reporting...")
             mock_selenium_execution()
             return
@@ -46,7 +46,7 @@ def run_selenium_tests():
         driver.get(url)
         time.sleep(1)
         title = driver.title
-        print(f"🔍 Checked Title: '{title}'")
+        print(f"Checked Title: '{title}'")
         assert "AI Virtual Try-On - Staging Test Harness" in title
         results.append(("TS-UI-001 (Landing Page render)", "PASS"))
         
@@ -56,7 +56,7 @@ def run_selenium_tests():
         driver.find_element(By.ID, "btn-register").click()
         time.sleep(0.5)
         feedback = driver.find_element(By.ID, "register-feedback").text
-        print(f"🔍 Register Success Feedback: '{feedback}'")
+        print(f"Register Success Feedback: '{feedback}'")
         assert "Success" in feedback
         results.append(("TS-FC-001 (User registration success)", "PASS"))
         
@@ -66,7 +66,7 @@ def run_selenium_tests():
         driver.find_element(By.ID, "btn-register").click()
         time.sleep(0.5)
         feedback = driver.find_element(By.ID, "register-feedback").text
-        print(f"🔍 Register Duplicate Feedback: '{feedback}'")
+        print(f"Register Duplicate Feedback: '{feedback}'")
         assert "Error: Email is already registered!" in feedback
         results.append(("TS-FC-003 (Duplicate email validation)", "PASS"))
         
@@ -76,7 +76,7 @@ def run_selenium_tests():
         driver.find_element(By.ID, "btn-login").click()
         time.sleep(0.5)
         feedback = driver.find_element(By.ID, "login-feedback").text
-        print(f"🔍 Login Success Feedback: '{feedback}'")
+        print(f"Login Success Feedback: '{feedback}'")
         assert "Success" in feedback
         results.append(("TS-FC-002 (User login authentication)", "PASS"))
         
@@ -87,7 +87,7 @@ def run_selenium_tests():
         # Verify only matching cards visible
         cards = driver.find_elements(By.CLASS_NAME, "product-card")
         visible_cards = [c for c in cards if c.is_displayed()]
-        print(f"🔍 Search results visible count: {len(visible_cards)}")
+        print(f"Search results visible count: {len(visible_cards)}")
         assert len(visible_cards) == 1
         results.append(("TS-FC-008 (Product catalog keyword search)", "PASS"))
         
@@ -100,7 +100,7 @@ def run_selenium_tests():
         cards[0].find_element(By.XPATH, ".//button[text()='Add to Cart']").click()
         time.sleep(0.5)
         cart_total = driver.find_element(By.ID, "cart-total").text
-        print(f"🔍 Cart total after adding 1 item: {cart_total}")
+        print(f"Cart total after adding 1 item: {cart_total}")
         assert "$129.99" in cart_total
         results.append(("TS-FC-012 (Cart increment and update)", "PASS"))
         
@@ -110,7 +110,7 @@ def run_selenium_tests():
         driver.find_element(By.ID, "btn-checkout").click()
         time.sleep(0.5)
         checkout_feedback = driver.find_element(By.ID, "checkout-feedback").text
-        print(f"🔍 Checkout Error Feedback: '{checkout_feedback}'")
+        print(f"Checkout Error Feedback: '{checkout_feedback}'")
         assert "Zip code must be numeric" in checkout_feedback
         results.append(("TS-FC-035 (Checkout zip validation constraint)", "PASS"))
 
@@ -120,26 +120,26 @@ def run_selenium_tests():
         driver.find_element(By.ID, "btn-checkout").click()
         time.sleep(0.5)
         checkout_feedback = driver.find_element(By.ID, "checkout-feedback").text
-        print(f"🔍 Checkout Success Feedback: '{checkout_feedback}'")
+        print(f"Checkout Success Feedback: '{checkout_feedback}'")
         assert "Success: Order paid" in checkout_feedback
         results.append(("TS-FC-018 (Checkout Stripe webhook integration)", "PASS"))
         
     except AssertionError as ae:
-        print(f"❌ Test verification failed: {ae}")
+        print(f"Test verification failed: {ae}")
     except Exception as ex:
-        print(f"❌ Selenium exception encountered during E2E flow: {ex}")
+        print(f"Selenium exception encountered during E2E flow: {ex}")
     finally:
         driver.quit()
         
     print("\n=============================================================")
-    print("📊 SELENIUM CORE FUNCTIONAL TEST RUN SUMMARY")
+    print("SELENIUM CORE FUNCTIONAL TEST RUN SUMMARY")
     print("=============================================================")
     for test_name, status in results:
         print(f"  {test_name:<45} -> {status}")
     print("=============================================================")
 
 def mock_selenium_execution():
-    print("⚙️ Initiating fast Selenium testing sandbox...")
+    print("Initiating fast Selenium testing sandbox...")
     time.sleep(1)
     results = [
         ("TS-UI-001 (Landing Page render)", "PASS"),
